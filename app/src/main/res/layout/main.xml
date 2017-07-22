@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/main_layout_inner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white_gray">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_layout_DrawLine"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/Transparent">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_score_panel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/score_panel"
+        android:padding="5dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/main_score_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="سطح"/>
+
+        <TextView
+            android:id="@+id/main_score_score"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginRight="50dp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

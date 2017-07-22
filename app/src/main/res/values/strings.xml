@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Breaker</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_main">Main</string>
+    <string name="splash_txt">"کاری از تیم اندروید شرکت فناوران صَوَر رایانه"</string>
+    <string name="game_start">شروع بازی</string>
+    <string name="high_Score">بیشترین امتیاز</string>
+</resources>
