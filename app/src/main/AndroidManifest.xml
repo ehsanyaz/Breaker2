@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splash"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +21,12 @@
         <activity
             android:name=".Menu"
             android:label="@string/title_activity_menu"
-            android:screenOrientation="portrait"
-             />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Main"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"
-           >
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Help"></activity>
     </application>
 
 </manifest>

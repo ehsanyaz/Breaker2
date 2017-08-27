@@ -8,11 +8,11 @@ import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.savar_computer.breaker.Main;
 import com.savar_computer.breaker.R;
 import com.savar_computer.breaker.Splash;
-
 
 public class Brick extends android.support.v7.widget.AppCompatTextView {
 
@@ -44,10 +44,12 @@ public class Brick extends android.support.v7.widget.AppCompatTextView {
             this.amount--;
             upgradeText();
         } else {
+            this.amount--;
             this.setText("");
             destroyed = true;
             destroyAnimation();
             Main.inner_layout.removeView(this);
+            Main.bricksRemove(this);
         }
         updateColor();
     }
@@ -59,6 +61,14 @@ public class Brick extends android.support.v7.widget.AppCompatTextView {
 
     public void nextLevelAnimation() {
         this.setY(this.getY() + margin + this.getHeight());
+        if(this.getY()+margin+10+this.getHeight()>=Main.inner_layout_height && !destroyed){
+            this.setText("");
+            destroyed = true;
+            destroyAnimation();
+            Main.inner_layout.removeView(this);
+            Toast.makeText(context,"باخیتد",Toast.LENGTH_LONG).show();
+            Main.gameStatue =Main.Status.loosed;
+        }
     }
 
     public void upgradeText() {

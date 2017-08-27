@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,10 +17,10 @@ import com.savar_computer.breaker.Classes.DrawingView;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO:WE HAVE TO COMPLETE DODE BELOW
 public class Main extends Activity {
 
     public enum Status {loosed, paused, shooting, readyToShot}
+
     public static Status gameStatue;
 
     public static float startX, startY;
@@ -28,17 +29,17 @@ public class Main extends Activity {
     public static Context context;
 
     public static List<Ball> balls;
-    public static int ballsCount = 0;
+    public static int ballsCount;
     public static List<Brick> bricks;
-    public static int bricksCount = 0;
-    private static float ballStepX = -5, ballStepY = -1;
+    public static int bricksCount;
+    private static float ballStepX, ballStepY;
 
     private static int level = 0;
 
     public static RelativeLayout main_layout, inner_layout, DrawLine_layout;
     private RelativeLayout score_panel;
 
-    private int ScreenW, ScreenH;
+    private static int ScreenW, ScreenH;
     public static int inner_layout_width, inner_layout_height;
     private static float brickW, brickY;
     public static int ball_radius;
@@ -55,22 +56,33 @@ public class Main extends Activity {
         context = this.getApplicationContext();
         PreparingGraphics();
 
+        //First Logic
+        gameStatue = Status.readyToShot;
+        startX = inner_layout_width / 2;
+        startY = inner_layout_height;
         //Set Level 1
-        level++;
+        level = 1;
+        bricksCount = 0;
+        ballsCount = 0;
         //Creating Lists
         balls = new ArrayList<>();
         bricks = new ArrayList<>();
         //addFirstBall and brick
         addNewBall();
+        setBallsLocation();
         addNextLevelBricks();
+        //Reset Graphics
+        DrawLine_layout.invalidate();
+        main_layout.invalidate();
         inner_layout.invalidate();
     }
 
+    //--------------------------------------------------------Graphics
     private void PreparingGraphics() {
-
         main_layout = (RelativeLayout) findViewById(R.id.main_layout_main);
         main_layout.setBackgroundResource(R.drawable.background);
-       /* main_layout.setOnTouchListener(new View.OnTouchListener() {
+        //The code below was deleted from Version 1.1
+        /* main_layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction()==MotionEvent.ACTION_UP && DrawingView.drawed){
@@ -82,7 +94,6 @@ public class Main extends Activity {
         });*/
         inner_layout = (RelativeLayout) findViewById(R.id.main_layout_inner);
         DrawLine_layout = (RelativeLayout) findViewById(R.id.main_layout_DrawLine);
-
 
         //Get Screen Size
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -119,60 +130,61 @@ public class Main extends Activity {
         drawingView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         DrawLine_layout.addView(drawingView);
 
-        gameStatue = Status.readyToShot;
-        startX = inner_layout_width / 2;
-        startY = inner_layout_height;
-
         //TODO:not complete
         scoreTextView = (TextView) findViewById(R.id.main_score_score);
     }
 
+    //--------------------------------------------------------------------Logic
     public static void releaseBalls(float x, float y) {
-        calculateBallSteps(x, y);
-        gameStatue = Status.shooting;
-        for (int i = 0; i < ballsCount; i++) {
-            balls.get(i).releaseBall(ballStepX, ballStepY, (i + 1) * ballDelay);
+        if (gameStatue == Status.readyToShot) {
+            setBallSteps(x, y);
+            gameStatue = Status.shooting;
+            for (int i = 0; i < ballsCount; i++) {
+                balls.get(i).releaseBall(ballStepX, ballStepY, (i + 1) * ballDelay);
+            }
         }
     }
 
-
-    private static void calculateBallSteps(float x, float y) {
-        float nesbat = Math.abs(startX - x) / Math.abs(startY - y);
-        ballStepY = -1 * 5 / (nesbat + 1);
+    //Calculate speed,stepX and stepY
+    private static void setBallSteps(float x, float y) {
+        float Nesbat = Math.abs(startX - x) / Math.abs(startY - y);
+        //Code Bellow will produce speed for different Fragmentation
+        ballStepY = -1 * ((ScreenW + level) / 105) / (Nesbat + 1);
         if (startX <= x)
-            ballStepX = Math.abs(nesbat * ballStepY);
+            ballStepX = Math.abs(Nesbat * ballStepY);
         else
-            ballStepX = Math.abs(nesbat * ballStepY) * -1;
+            ballStepX = Math.abs(Nesbat * ballStepY) * -1;
     }
 
     public static void nextLevel() {
-        updateScoreTextView();
-        if (!(Main.startX == -1 && Main.startY == -1)) {
-            Main.startX = Main.newStartX;
-            Main.startY = Main.newStartY;
-            Main.newStartX = -1;
-            Main.newStartY = -1;
+        if (gameStatue == Status.shooting) {
+            updateScoreTextView();
+            if (!(Main.startX == -1 && Main.startY == -1)) {
+                Main.startX = Main.newStartX;
+                Main.startY = Main.newStartY;
+                Main.newStartX = -1;
+                Main.newStartY = -1;
+            }
+            //Brings bricks one level Down
+            for (int i = 0; i < bricksCount; i++) {
+                if (bricks.get(i).amount <= 0) {
+                    bricksRemove(bricks.get(i));
+                } else
+                    bricks.get(i).nextLevelAnimation();
+            }
+            //TODO:IN Loose situation
+            if (gameStatue == Status.loosed)
+                return;
+
+            addNewBall();
+            setBallsLocation();
+
+            addNextLevelBricks();
+
+            Main.level++;
+            gameStatue = Status.readyToShot;
+            Main.inner_layout.invalidate();
         }
-        //Remove old bricks
-        //Brings bricks one level Down
-        for (int i = 0; i < bricksCount; i++) {
-            if (bricks.get(i).amount <= 0) {
-                bricksRemove(bricks.get(i));
-            } else
-                bricks.get(i).nextLevelAnimation();
-        }
-
-
-        addNewBall();
-        setBallsLocation();
-
-
-        Main.level++;
-        addNextLevelBricks();
-        gameStatue = Status.readyToShot;
-
-        //Just for exam
-
     }
 
     private static void updateScoreTextView() {
@@ -186,17 +198,20 @@ public class Main extends Activity {
             balls.get(i).setX(x - ball_radius / 2);
             balls.get(i).setY(y - ball_radius);
         }
+        Main.inner_layout.invalidate();
     }
 
     public static void addNewBall() {
         Ball ball = new Ball(context, Main.ball_radius);
         balls.add(ball);
         ballsCount++;
-        ball.setX(startX - ball_radius / 2);
-        ball.setY(startY - ball_radius);
+        //ball.setX(startX - ball_radius / 2);
+        //ball.setY(startY - ball_radius);
         Main.inner_layout.addView(ball);
+        Main.inner_layout.invalidate();
     }
 
+    //TODO:not complete
     public static void addNextLevelBricks() {
         Brick brick = new Brick(context, (int) brickW, (int) brickY, level);
         bricks.add(brick);
@@ -204,7 +219,7 @@ public class Main extends Activity {
         brick.setY(Brick.margin);
         brick.setX(randomXLocationBrick());
         Main.inner_layout.addView(brick);
-
+        Main.inner_layout.invalidate();
     }
 
     public static float randomXLocationBrick() {
@@ -220,6 +235,5 @@ public class Main extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 }

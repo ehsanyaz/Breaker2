@@ -100,9 +100,10 @@ public class Menu extends Activity {
         //help imageView
         help.setY(inner_layout_height - inner_layout_height / 6);
         help.setX(35);
-        help.setOnClickListener(v ->
-                Toast.makeText(getApplicationContext(), "این ویژگی در نسخه ی بعدی بازی فعال خواهد شد", Toast.LENGTH_SHORT).show());
-
+        help.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), Help.class);
+            startActivity(intent);
+        });
         //amar imageView
         amar.setY(inner_layout_height - inner_layout_height / 6);
         amar.setX(35 + inner_layout_width / 10 + 10);

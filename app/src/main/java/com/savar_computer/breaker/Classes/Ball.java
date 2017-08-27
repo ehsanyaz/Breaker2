@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
@@ -124,6 +125,7 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
         }
     }
 
+    //TODO:not complete
     private void checkBricks() {
         boolean changedWay = false;
         for (int i = 0; i < Main.bricksCount; i++) {
@@ -132,16 +134,17 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
                 if (Main.bricks.get(i).destroyed)
                     continue;
                 if (Main.bricks.get(i).getX() - this.radius <= this.getX() && Main.bricks.get(i).getY() - this.radius <= this.getY() && Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth() + this.radius >= this.getX() + this.radius && Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight() + this.radius >= this.getY() + this.radius) {
-                    if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < 5) {
+                    Log.e("ball","hited");
+                    if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < Math.abs(stepX+stepY)) {
                         this.stepX = -1 * this.stepX;
                     }
-                    if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < 5) {
+                    if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < Math.abs(stepX+stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < 5) {
+                    if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < Math.abs(stepX+stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < 5) {
+                    if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < Math.abs(stepX+stepY)) {
                         this.stepX = -1 * this.stepX;
                     }
                     changedWay = true;
