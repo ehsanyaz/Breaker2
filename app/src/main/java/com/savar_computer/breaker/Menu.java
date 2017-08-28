@@ -1,10 +1,12 @@
 package com.savar_computer.breaker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+
+import com.savar_computer.breaker.Classes.SimpleDialog;
 
 public class Menu extends Activity {
 
@@ -35,10 +42,14 @@ public class Menu extends Activity {
 
     private SharedPreferences sharedPreferences;
 
+    public static Context context=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
+
+        Menu.context=this.getApplicationContext();
 
         RelativeLayout wholeLayout = (RelativeLayout) findViewById(R.id.menu_whole_layout);
 
@@ -162,6 +173,12 @@ public class Menu extends Activity {
         t.setDuration(Toast.LENGTH_SHORT);
         t.setGravity(Gravity.BOTTOM | Gravity.RIGHT,100,100);
         t.show();
+    }
 
+    @Override
+    public void onBackPressed() {
+        SimpleDialog simpleDialog=new SimpleDialog();
+        simpleDialog.setCancelable(true);
+        simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
     }
 }
