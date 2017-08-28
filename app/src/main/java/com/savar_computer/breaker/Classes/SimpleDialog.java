@@ -16,7 +16,7 @@ public class SimpleDialog extends DialogFragment {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 
         builder.setTitle("خروج");
-        builder.setMessage("آیا میخواهیید از برنامه خارج شوید");
+        builder.setMessage("آیا میخواهید از برنامه خارج شوید");
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -33,5 +33,13 @@ public class SimpleDialog extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
