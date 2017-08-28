@@ -1,13 +1,17 @@
 package com.savar_computer.breaker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -113,13 +117,13 @@ public class Menu extends Activity {
         amar.setY(inner_layout_height - inner_layout_height / 6);
         amar.setX(35 + inner_layout_width / 10 + 10);
         amar.setOnClickListener(v ->
-                Toast.makeText(getApplicationContext(), "این ویژگی در نسخه ی بعدی بازی فعال خواهد شد", Toast.LENGTH_SHORT).show());
+                CustomToast("این ویژگی در نسخه ی بعدی بازی فعال خواهد شد"));
 
         //setting imageView
         setting.setY(inner_layout_height - inner_layout_height / 6);
         setting.setX(inner_layout_width - 35 - inner_layout_width / 10 - 5);
         setting.setOnClickListener(v ->
-                Toast.makeText(getApplicationContext(), "این ویژگی در نسخه ی بعدی بازی فعال خواهد شد", Toast.LENGTH_SHORT).show());
+                CustomToast("این ویژگی در نسخه ی بعدی بازی فعال خواهد شد"));
 
         //Set Location and Setting of textView
         high_Score_text.setText(R.string.high_Score);
@@ -140,5 +144,25 @@ public class Menu extends Activity {
     protected void onResume() {
         super.onResume();
         high_Score_Score.setText(sharedPreferences.getInt("score",0)+"");
+
+
+    }
+
+    protected void CustomToast(String message){
+        LayoutInflater inflater=getLayoutInflater();
+        View layout=inflater.inflate(R.layout.custom_toast,(ViewGroup)findViewById(R.id.customtoast));
+
+        TextView textView=(TextView)layout.findViewById(R.id.custom_toast_text);
+        textView.setText(message);
+        Typeface typeface=Typeface.createFromAsset(getAssets(),"Fonts/font.ttf");
+        textView.setTypeface(typeface);
+
+
+        Toast t=new Toast(getApplicationContext());
+        t.setView(layout);
+        t.setDuration(Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.BOTTOM | Gravity.RIGHT,100,100);
+        t.show();
+
     }
 }

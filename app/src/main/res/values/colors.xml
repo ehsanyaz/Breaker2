@@ -8,4 +8,5 @@
     <color name="background">#9B2219</color>
     <color name="splash_background">#faf0ef</color>
     <color name="score_panel">#C9C9C9</color>
+    <color name="white">#ffffff</color>
 </resources>
