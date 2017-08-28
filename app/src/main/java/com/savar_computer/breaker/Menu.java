@@ -2,8 +2,10 @@ package com.savar_computer.breaker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,8 @@ public class Menu extends Activity {
     private TextView high_Score_text;
     private TextView high_Score_Score;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class Menu extends Activity {
         high_Score_text = (TextView) findViewById(R.id.menu_high_Score_text);
         high_Score_Score = (TextView) findViewById(R.id.menu_high_Score_Score);
 
+        sharedPreferences= getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
         readyGraphics();
     }
 
@@ -120,6 +125,7 @@ public class Menu extends Activity {
         high_Score_text.setText(R.string.high_Score);
         high_Score_text.setTypeface(typeface);
         high_Score_Score.setTypeface(typeface);
+        high_Score_Score.setText(sharedPreferences.getInt("score",0)+"");
         high_Score_Score.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
         high_Score_text.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
 
@@ -128,5 +134,11 @@ public class Menu extends Activity {
         score_layout.setY(inner_layout_height - start_btn_width / 10 - ScreenH / 7 - 50);
         RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(inner_layout_width - 80, 40);
         score_layout.setLayoutParams(params4);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        high_Score_Score.setText(sharedPreferences.getInt("score",0)+"");
     }
 }

@@ -2,7 +2,10 @@ package com.savar_computer.breaker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -48,6 +51,7 @@ public class Main extends Activity {
     private ImageView backBtn, settingBtn, pasuseBtn;
     private static TextView scoreTextView;
 
+    private static SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,9 @@ public class Main extends Activity {
         DrawLine_layout.invalidate();
         main_layout.invalidate();
         inner_layout.invalidate();
+
+        sharedPreferences= getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
+
     }
 
     //--------------------------------------------------------Graphics
@@ -157,6 +164,12 @@ public class Main extends Activity {
     }
 
     public static void nextLevel() {
+        if(Main.level>(sharedPreferences.getInt("score",0))){
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putInt("score",Main.level);
+            editor.commit();
+            scoreTextView.setTextColor(Color.argb(100,0,0,255));
+        }
         if (gameStatue == Status.shooting) {
             updateScoreTextView();
             if (!(Main.startX == -1 && Main.startY == -1)) {

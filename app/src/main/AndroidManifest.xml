@@ -26,7 +26,8 @@
             android:name=".Main"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Help"></activity>
+        <activity android:name=".Help">
+        </activity>
     </application>
 
 </manifest>
