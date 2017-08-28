@@ -40,7 +40,7 @@ public class Menu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
-        //wholeLayout = (RelativeLayout) findViewById(R.id.menu_whole_layout);
+        RelativeLayout wholeLayout = (RelativeLayout) findViewById(R.id.menu_whole_layout);
 
         score_layout = (RelativeLayout) findViewById(R.id.menu_score_layout);
         inner_layout = (RelativeLayout) findViewById(R.id.menu_inner_layout);
@@ -56,6 +56,7 @@ public class Menu extends Activity {
 
         sharedPreferences= getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
         readyGraphics();
+
     }
 
     private void readyGraphics() {
