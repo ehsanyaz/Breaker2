@@ -17,6 +17,13 @@ public class SimpleDialog extends DialogFragment {
 
         builder.setTitle("خروج");
         builder.setMessage("آیا میخواهید از برنامه خارج شوید");
+        /*String[] s={"سیبسیب","یشسی","یشسیشسیسشیشس"};
+        builder.setItems(s, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });*/
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

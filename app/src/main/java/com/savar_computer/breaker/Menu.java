@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -148,6 +149,7 @@ public class Menu extends Activity {
         score_layout.setY(inner_layout_height - start_btn_width / 10 - ScreenH / 7 - 50);
         RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(inner_layout_width - 80, 40);
         score_layout.setLayoutParams(params4);
+
     }
 
     @Override
@@ -177,8 +179,9 @@ public class Menu extends Activity {
 
     @Override
     public void onBackPressed() {
-        SimpleDialog simpleDialog=new SimpleDialog();
-        simpleDialog.setCancelable(true);
-        simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
+        super.onBackPressed();
+       // SimpleDialog simpleDialog=new SimpleDialog();
+       // simpleDialog.setCancelable(true);
+       // simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
     }
 }
