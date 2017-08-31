@@ -24,6 +24,7 @@ import com.savar_computer.breaker.Classes.DrawingView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main extends Activity {
 
@@ -282,27 +283,27 @@ public class Main extends Activity {
             bricksCount++;
             brick.setY(Brick.margin);
 
-
-            //TODO:must to bee updated
             float newX = 0;
             loop:
             while (true) {
                 newX = randomXLocationBrick();
                 for (int j = 0; j < i; j++) {
-                    if (newX == x[i])
+                    if (newX == x[j])
                         continue loop;
                 }
                 break;
             }
-            brick.setX(newX);
+
             x[i] = newX;
+            brick.setX(newX);
             Main.inner_layout.addView(brick);
             Main.inner_layout.invalidate();
         }
     }
 
     public static float randomXLocationBrick() {
-        return (((int) (Math.random() * 100) % 6) * brickW);
+        Random r=new Random();
+        return (((int) (r.nextDouble() * 100) % 6) * brickW);
     }
 
     public static void bricksRemove(Brick brick) {
