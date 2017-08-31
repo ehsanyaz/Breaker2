@@ -7,8 +7,8 @@ android {
         applicationId "com.savar_computer.breaker"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.8"
+        versionCode 11
+        versionName "1.9.85"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         jackOptions {

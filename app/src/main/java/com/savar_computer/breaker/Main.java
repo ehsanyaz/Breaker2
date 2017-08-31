@@ -1,17 +1,21 @@
 package com.savar_computer.breaker;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Display;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.savar_computer.breaker.Classes.Ball;
 import com.savar_computer.breaker.Classes.Brick;
@@ -39,14 +43,14 @@ public class Main extends Activity {
 
     private static int level = 0;
 
-    public static RelativeLayout main_layout, inner_layout, DrawLine_layout;
-    private RelativeLayout score_panel;
-
     private static int ScreenW, ScreenH;
     public static int inner_layout_width, inner_layout_height;
     private static float brickW, brickY;
     public static int ball_radius;
     public static int ballDelay = 100;
+
+    public static RelativeLayout main_layout, inner_layout, DrawLine_layout;
+    private RelativeLayout score_panel;
 
     private ImageView backBtn, settingBtn, pasuseBtn;
     private static TextView scoreTextView;
@@ -60,34 +64,40 @@ public class Main extends Activity {
         context = this.getApplicationContext();
         PreparingGraphics();
 
-        //First Logic
+        //------------------------------First Logic
         gameStatue = Status.readyToShot;
         startX = inner_layout_width / 2;
         startY = inner_layout_height;
-        //Set Level 1
-        level = 1;
+        //--------------------------------Set Level 1
+        Main.level = 1;
         bricksCount = 0;
         ballsCount = 0;
         //Creating Lists
         balls = new ArrayList<>();
         bricks = new ArrayList<>();
-        //addFirstBall and brick
+        //-------------------------------------addFirstBall and brick
         addNewBall();
         setBallsLocation();
         addNextLevelBricks();
+        updateScoreTextView();
         //Reset Graphics
         DrawLine_layout.invalidate();
         main_layout.invalidate();
         inner_layout.invalidate();
 
-        sharedPreferences= getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
 
+        //-----The code below is to have different delay time in every Fragmentation
+        ballDelay = ScreenH / 8;
     }
 
     //--------------------------------------------------------Graphics
     private void PreparingGraphics() {
         main_layout = (RelativeLayout) findViewById(R.id.main_layout_main);
         main_layout.setBackgroundResource(R.drawable.background);
+        inner_layout = (RelativeLayout) findViewById(R.id.main_layout_inner);
+        DrawLine_layout = (RelativeLayout) findViewById(R.id.main_layout_DrawLine);
+
         //The code below was deleted from Version 1.1
         /* main_layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -99,22 +109,28 @@ public class Main extends Activity {
                 return false;
             }
         });*/
-        inner_layout = (RelativeLayout) findViewById(R.id.main_layout_inner);
-        DrawLine_layout = (RelativeLayout) findViewById(R.id.main_layout_DrawLine);
 
-        //Get Screen Size
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        ScreenH = displayMetrics.heightPixels;
+        //------------------------------Get Screen Size
+
+        //DisplayMetrics displayMetrics = new DisplayMetrics();
+        //getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        /* ScreenH = displayMetrics.heightPixels;
         ScreenW = displayMetrics.widthPixels;
+        */
+        Point size = new Point();
+        WindowManager w = getWindowManager();
+        w.getDefaultDisplay().getSize(size);
+        ScreenW = size.x;
+        ScreenH = size.y;
+
         int margin_left_right = ScreenW / 32;
 
-        //Calculate Brick  and Ball Sizes
+        //-------------------------------------Calculate Brick  and Ball Sizes
         brickW = (ScreenW - 2 * margin_left_right) / 6;
         brickY = (float) (brickW / 1.6);
         ball_radius = (int) brickY / 3;
 
-        //Calculate inner layout and DrawLineLayoutSize and Set Size and Point
+        //--------------------------Calculate inner layout and DrawLineLayoutSize and Set Size and Point
         inner_layout_width = (int) brickW * 6;
         inner_layout_height = (int) brickY * 9;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(inner_layout_width, inner_layout_height);
@@ -137,7 +153,6 @@ public class Main extends Activity {
         drawingView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         DrawLine_layout.addView(drawingView);
 
-        //TODO:not complete
         scoreTextView = (TextView) findViewById(R.id.main_score_score);
     }
 
@@ -148,15 +163,16 @@ public class Main extends Activity {
             gameStatue = Status.shooting;
             for (int i = 0; i < ballsCount; i++) {
                 balls.get(i).releaseBall(ballStepX, ballStepY, (i + 1) * ballDelay);
+                inner_layout.invalidate();
             }
         }
     }
 
-    //Calculate speed,stepX and stepY
+    //---------------------Calculate speed,stepX and stepY
     private static void setBallSteps(float x, float y) {
         float Nesbat = Math.abs(startX - x) / Math.abs(startY - y);
-        //Code Bellow will produce speed for different Fragmentation
-        ballStepY = -1 * ((ScreenW + level) / 105) / (Nesbat + 1);
+        //-----------------------Code Bellow will produce speed for different Fragmentation
+        ballStepY = -1 * ((ScreenH + level) / 100) / (Nesbat + 1);
         if (startX <= x)
             ballStepX = Math.abs(Nesbat * ballStepY);
         else
@@ -164,11 +180,12 @@ public class Main extends Activity {
     }
 
     public static void nextLevel() {
-        if(Main.level>(sharedPreferences.getInt("score",0))){
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-            editor.putInt("score",Main.level);
+        Main.level++;
+        if (Main.level > (sharedPreferences.getInt("score", 0))) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("score", Main.level);
             editor.commit();
-            scoreTextView.setTextColor(Color.argb(100,0,0,255));
+            scoreTextView.setTextColor(Color.argb(100, 0, 0, 255));
         }
         if (gameStatue == Status.shooting) {
             updateScoreTextView();
@@ -186,17 +203,20 @@ public class Main extends Activity {
                     bricks.get(i).nextLevelAnimation();
             }
             //TODO:IN Loose situation
-            if (gameStatue == Status.loosed)
+            if (gameStatue == Status.loosed) {
+                Toast.makeText(context, "You LOOSED", Toast.LENGTH_LONG).show();
                 return;
+            }
 
             addNewBall();
             setBallsLocation();
 
             addNextLevelBricks();
 
-            Main.level++;
             gameStatue = Status.readyToShot;
             Main.inner_layout.invalidate();
+            inner_layout.invalidate();
+            DrawLine_layout.invalidate();
         }
     }
 
@@ -211,7 +231,8 @@ public class Main extends Activity {
             balls.get(i).setX(x - ball_radius / 2);
             balls.get(i).setY(y - ball_radius);
         }
-        Main.inner_layout.invalidate();
+        inner_layout.invalidate();
+        DrawLine_layout.invalidate();
     }
 
     public static void addNewBall() {
@@ -220,19 +241,51 @@ public class Main extends Activity {
         ballsCount++;
         //ball.setX(startX - ball_radius / 2);
         //ball.setY(startY - ball_radius);
+        setBallsLocation();
+
         Main.inner_layout.addView(ball);
         Main.inner_layout.invalidate();
     }
 
     //TODO:not complete
     public static void addNextLevelBricks() {
-        Brick brick = new Brick(context, (int) brickW, (int) brickY, level);
-        bricks.add(brick);
-        bricksCount++;
-        brick.setY(Brick.margin);
-        brick.setX(randomXLocationBrick());
-        Main.inner_layout.addView(brick);
-        Main.inner_layout.invalidate();
+        int newBallC = 0;
+        if (Main.level <= 5) {
+            newBallC = 1;
+        } else if (newBallC <= 10) {
+            newBallC = (int) (Math.random() * 2) + 1;
+        } else if (newBallC <= 15) {
+            newBallC = (int) (Math.random() * 3) + 1;
+        } else if (newBallC <= 25) {
+            newBallC = (int) (Math.random() * 4) + 1;
+        } else if (newBallC <= 30) {
+            newBallC = (int) (Math.random() * 5) + 1;
+        } else {
+            newBallC = (int) (Math.random() * 6) + 1;
+        }
+
+        int[] x =new int[newBallC];
+        for (int i = 0; i < newBallC; i++) {
+            Brick brick = new Brick(context, (int) brickW, (int) brickY, level);
+            bricks.add(brick);
+            bricksCount++;
+            brick.setY(Brick.margin);
+
+
+            //TODO:must to bee updated
+            float newX=0;
+            loop:while(true){
+                newX=randomXLocationBrick();
+                for (int j=0;j<i;j++){
+                    if(newX==Main.bricks.get(j).getX())
+                        continue loop;
+                }
+                break;
+            }
+            brick.setX(newX);
+            Main.inner_layout.addView(brick);
+            Main.inner_layout.invalidate();
+        }
     }
 
     public static float randomXLocationBrick() {
@@ -248,5 +301,11 @@ public class Main extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onResume() {
+        onCreate(Bundle.EMPTY);
     }
 }
