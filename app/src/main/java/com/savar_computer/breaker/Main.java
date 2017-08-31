@@ -174,7 +174,7 @@ public class Main extends Activity {
     private static void setBallSteps(float x, float y) {
         float Nesbat = Math.abs(startX - x) / Math.abs(startY - y);
         //-----------------------Code Bellow will produce speed for different Fragmentation
-        ballStepY = -1 * ((ScreenH + level) / 100) / (Nesbat + 1);
+        ballStepY = -1 * ((ScreenH + level) / 90) / (Nesbat + 1);
         if (startX <= x)
             ballStepX = Math.abs(Nesbat * ballStepY);
         else
