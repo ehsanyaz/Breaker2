@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -252,19 +253,29 @@ public class Main extends Activity {
         int newBallC = 0;
         if (Main.level <= 5) {
             newBallC = 1;
-        } else if (newBallC <= 10) {
-            newBallC = (int) (Math.random() * 2) + 1;
-        } else if (newBallC <= 15) {
-            newBallC = (int) (Math.random() * 3) + 1;
-        } else if (newBallC <= 25) {
-            newBallC = (int) (Math.random() * 4) + 1;
-        } else if (newBallC <= 30) {
-            newBallC = (int) (Math.random() * 5) + 1;
-        } else {
-            newBallC = (int) (Math.random() * 6) + 1;
+        } else if (Main.level <= 10) {
+            newBallC = (int) ((Math.random() * 2) + 1);
+        } else if (Main.level <= 15) {
+            newBallC = (int) ((Math.random() * 3) + 1);
+        } else if (Main.level <= 25) {
+            newBallC = (int) ((Math.random() * 4) + 1);
+        } else if (Main.level <= 30) {
+            newBallC = (int) ((Math.random() * 5) + 1);
+        } else if (Main.level <= 50) {
+            newBallC = (int) ((Math.random() * 6) + 1);
+        } else if (Main.level <= 80) {
+            newBallC = (int) ((Math.random() * 5) + 2);
         }
+        else if (Main.level <= 200) {
+            newBallC = (int) ((Math.random() * 4) + 3);
+        }
+        else
+            newBallC = (int) ((Math.random() * 3) + 4);
+        if (newBallC > 6)
+            newBallC = 6;
 
-        int[] x =new int[newBallC];
+        Log.i("MAN", newBallC + "");
+        float[] x = new float[newBallC];
         for (int i = 0; i < newBallC; i++) {
             Brick brick = new Brick(context, (int) brickW, (int) brickY, level);
             bricks.add(brick);
@@ -273,16 +284,18 @@ public class Main extends Activity {
 
 
             //TODO:must to bee updated
-            float newX=0;
-            loop:while(true){
-                newX=randomXLocationBrick();
-                for (int j=0;j<i;j++){
-                    if(newX==Main.bricks.get(j).getX())
+            float newX = 0;
+            loop:
+            while (true) {
+                newX = randomXLocationBrick();
+                for (int j = 0; j < i; j++) {
+                    if (newX == x[i])
                         continue loop;
                 }
                 break;
             }
             brick.setX(newX);
+            x[i] = newX;
             Main.inner_layout.addView(brick);
             Main.inner_layout.invalidate();
         }
