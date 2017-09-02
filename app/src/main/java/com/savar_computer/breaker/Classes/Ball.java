@@ -13,7 +13,7 @@ import com.savar_computer.breaker.Main;
 
 public class Ball extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
 
-    public static boolean releasdAnyInLevel = false;
+    public static boolean releasedAnyInLevel = false;
 
     public ValueAnimator animator;
 
@@ -60,7 +60,7 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
         animator.setTarget(this);
         //animator.addListener(this);
         animator.addUpdateListener(this);
-        releasdAnyInLevel = true;
+        releasedAnyInLevel = true;
         animator.start();
     }
 
@@ -117,9 +117,9 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
             //this.setX(Main.newStartX - radius / 2);
             //this.setY(Main.newStartY - radius);
             if (ballsEnded()) {
-                if (releasdAnyInLevel) {
+                if (releasedAnyInLevel) {
                     Main.nextLevel();
-                    releasdAnyInLevel = false;
+                    releasedAnyInLevel = false;
                 }
             }
         }
@@ -133,18 +133,18 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
             if (!changedWay) {
                 if (Main.bricks.get(i).destroyed)
                     continue;
-                if (Main.bricks.get(i).getX() - this.radius <= this.getX() && Main.bricks.get(i).getY() - this.radius <= this.getY() && Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth() + this.radius >= this.getX() + this.radius && Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight() + this.radius >= this.getY() + this.radius) {
+                if (Main.bricks.get(i).getX() - this.radius <= 5+this.getX() && Main.bricks.get(i).getY() - this.radius <= 5+this.getY() && Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth() + this.radius+5 >= this.getX() + this.radius && Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight() + this.radius+5 >= this.getY() + this.radius) {
                     Log.e("ball","hited");
-                    if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < Math.abs(stepX+stepY)) {
+                    if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < Math.abs(stepX)) {
                         this.stepX = -1 * this.stepX;
                     }
-                    if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < Math.abs(stepX+stepY)) {
+                    if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < Math.abs(stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < Math.abs(stepX+stepY)) {
+                    if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < Math.abs(stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < Math.abs(stepX+stepY)) {
+                    if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < Math.abs(stepX)) {
                         this.stepX = -1 * this.stepX;
                     }
                     changedWay = true;

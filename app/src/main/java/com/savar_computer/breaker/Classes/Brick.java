@@ -83,8 +83,10 @@ public class Brick extends android.support.v7.widget.AppCompatTextView {
             this.setBackgroundColor(Color.rgb(155+a*10,0,0));
         else if(a<20)
             this.setBackgroundColor(Color.rgb(0,100+a*8,0));
-        else if(a<30)
-            this.setBackgroundColor(Color.rgb(0,0,155+a*10));
+        else if(a<30) {
+            this.setBackgroundColor(Color.rgb(0, 0, 155 + a * 10));
+            this.setTextColor(Color.rgb(255,255,255));
+        }
         else if(a<40)
             this.setBackgroundColor(Color.rgb(0,155+a*10,155+a*5));
         else if(a<50)
