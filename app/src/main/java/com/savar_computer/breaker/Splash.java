@@ -31,6 +31,8 @@ public class Splash extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+
         //get Size of Screen
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -61,9 +63,18 @@ public class Splash extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), Menu.class);
-                //The Switch between Activities Will be with Animation
-                overridePendingTransition(R.anim.menu_come, R.anim.splash_go);
+                Intent intent;
+                if(sharedPreferences.getBoolean("seen",false)) {
+                   intent= new Intent(getApplicationContext(), Menu.class);
+                    //The Switch between Activities Will be with Animation
+                    overridePendingTransition(R.anim.menu_come, R.anim.splash_go);
+                }
+                else{
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putBoolean("seen",true);
+                    editor.commit();
+                    intent=new Intent(getApplicationContext(),Help.class);
+                }
                 startActivity(intent);
                 //When the user is in the Menu Activity when press back it will not return to
                 //this Activity,in other words it remove this Activity from Activity Stack

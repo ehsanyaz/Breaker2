@@ -1,6 +1,7 @@
 package com.savar_computer.breaker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
@@ -34,6 +35,10 @@ public class Help extends Activity {
         Typeface typeface=Typeface.createFromAsset(getAssets(),"Fonts/font.ttf");
         next.setTypeface(typeface);
         next.setOnClickListener(v -> {
+            if(count==5){
+                Intent intent=new Intent(getApplicationContext(),Menu.class);
+                startActivity(intent);
+            }
             if(count==4)
                 next.setText("پابان");
             if (count < 5) {
