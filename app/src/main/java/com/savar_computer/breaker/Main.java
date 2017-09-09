@@ -90,7 +90,7 @@ public class Main extends Activity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
 
         //-----The code below is to have different delay time in every Fragmentation
-        ballDelay = ScreenH / 8;
+        ballDelay = ScreenH / 10;
     }
 
     //--------------------------------------------------------Graphics
