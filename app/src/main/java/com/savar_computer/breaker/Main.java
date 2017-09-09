@@ -214,7 +214,9 @@ public class Main extends Activity {
             //TODO:IN Loose situation
             if (gameStatue == Status.loosed) {
                 Intent intent=new Intent(context,LooseActivity.class);
-                MainActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
+                //TODO:Code Below doesn't work
+                //MainActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
+                inner_layout.setAlpha(0.6f);
                 context.startActivity(intent);
                 return;
             }

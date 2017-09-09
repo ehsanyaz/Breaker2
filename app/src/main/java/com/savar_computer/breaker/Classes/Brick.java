@@ -66,7 +66,6 @@ public class Brick extends android.support.v7.widget.AppCompatTextView {
             destroyed = true;
             destroyAnimation();
             Main.inner_layout.removeView(this);
-            Toast.makeText(context,"باخیتد",Toast.LENGTH_LONG).show();
             Main.gameStatue =Main.Status.loosed;
         }
     }
