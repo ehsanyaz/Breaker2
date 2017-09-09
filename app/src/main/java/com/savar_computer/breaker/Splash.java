@@ -56,18 +56,15 @@ public class Splash extends Activity {
 
         //After 1sec the Splash will Finish and Code below will run
         handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent;
-                intent = new Intent(getApplicationContext(), Menu.class);
-                //The Switch between Activities Will be with Animation
-                overridePendingTransition(R.anim.menu_come, R.anim.splash_go);
-                startActivity(intent);
-                //When the user is in the Menu Activity when press back it will not return to
-                //this Activity,in other words it remove this Activity from Activity Stack
-                finish();
-            }
+        handler.postDelayed(() -> {
+            Intent intent;
+            intent = new Intent(getApplicationContext(), Menu.class);
+            //The Switch between Activities Will be with Animation
+            overridePendingTransition(R.anim.menu_come, R.anim.splash_go);
+            startActivity(intent);
+            //When the user is in the Menu Activity when press back it will not return to
+            //this Activity,in other words it remove this Activity from Activity Stack
+            finish();
         }, 1000);
     }
 
