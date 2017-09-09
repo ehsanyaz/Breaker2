@@ -25,8 +25,11 @@
         <activity
             android:name=".Main"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Help">
+            android:screenOrientation="portrait" />
+        <activity android:name=".Help"></activity>
+        <activity
+            android:name=".LooseActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
         </activity>
     </application>
 

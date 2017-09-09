@@ -3,6 +3,7 @@ package com.savar_computer.breaker;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,6 +60,8 @@ public class Main extends Activity {
     private ImageView backBtn, settingBtn, pasuseBtn;
     private static TextView scoreTextView;
 
+    private static Activity MainActivity;
+
     private static SharedPreferences sharedPreferences;
 
     @Override
@@ -64,6 +69,8 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         context = this.getApplicationContext();
+        MainActivity=this;
+
         PreparingGraphics();
 
         //------------------------------First Logic
@@ -206,7 +213,9 @@ public class Main extends Activity {
             }
             //TODO:IN Loose situation
             if (gameStatue == Status.loosed) {
-                Toast.makeText(context, "You LOOSED", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(context,LooseActivity.class);
+                MainActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
+                context.startActivity(intent);
                 return;
             }
 
