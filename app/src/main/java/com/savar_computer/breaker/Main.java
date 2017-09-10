@@ -60,16 +60,13 @@ public class Main extends Activity {
     private ImageView backBtn, settingBtn, pasuseBtn;
     private static TextView scoreTextView;
 
-    private static Activity MainActivity;
-
     private static SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        context = this.getApplicationContext();
-        MainActivity=this;
+        context = this;
 
         PreparingGraphics();
 
@@ -213,23 +210,23 @@ public class Main extends Activity {
             }
             //TODO:IN Loose situation
             if (gameStatue == Status.loosed) {
-                Intent intent=new Intent(context,LooseActivity.class);
+                Intent intent = new Intent(context, LooseActivity.class);
                 //TODO:Code Below doesn't work
                 //MainActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
-                inner_layout.setAlpha(0.6f);
+                //inner_layout.setAlpha(0.6f);
                 context.startActivity(intent);
-                return;
+                //return;
+            } else {
+                addNewBall();
+                setBallsLocation();
+
+                addNextLevelBricks();
+
+                gameStatue = Status.readyToShot;
+                Main.inner_layout.invalidate();
+                inner_layout.invalidate();
+                DrawLine_layout.invalidate();
             }
-
-            addNewBall();
-            setBallsLocation();
-
-            addNextLevelBricks();
-
-            gameStatue = Status.readyToShot;
-            Main.inner_layout.invalidate();
-            inner_layout.invalidate();
-            DrawLine_layout.invalidate();
         }
     }
 
@@ -277,11 +274,9 @@ public class Main extends Activity {
             newBallC = (int) ((Math.random() * 6) + 1);
         } else if (Main.level <= 80) {
             newBallC = (int) ((Math.random() * 5) + 2);
-        }
-        else if (Main.level <= 200) {
+        } else if (Main.level <= 200) {
             newBallC = (int) ((Math.random() * 4) + 3);
-        }
-        else
+        } else
             newBallC = (int) ((Math.random() * 3) + 4);
         if (newBallC > 6)
             newBallC = 6;
@@ -313,7 +308,7 @@ public class Main extends Activity {
     }
 
     public static float randomXLocationBrick() {
-        Random r=new Random();
+        Random r = new Random();
         return (((int) (r.nextDouble() * 100) % 6) * brickW);
     }
 
