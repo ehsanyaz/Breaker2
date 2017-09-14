@@ -39,6 +39,7 @@ public class Main extends Activity {
     public static float newStartX = -1, newStartY = -1;
 
     public static Context context;
+    private static  Activity MyActivity;
 
     public static List<Ball> balls;
     public static int ballsCount;
@@ -67,7 +68,7 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         context = this;
-
+        MyActivity=this;
         PreparingGraphics();
 
         //------------------------------First Logic
@@ -212,7 +213,7 @@ public class Main extends Activity {
             if (gameStatue == Status.loosed) {
                 Intent intent = new Intent(context, LooseActivity.class);
                 //TODO:Code Below doesn't work
-                //MainActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
+                //MyActivity.overridePendingTransition(R.anim.loose_anim, R.anim.loose_activity_anim);
                 //inner_layout.setAlpha(0.6f);
                 context.startActivity(intent);
                 //return;
@@ -225,6 +226,7 @@ public class Main extends Activity {
                 gameStatue = Status.readyToShot;
                 Main.inner_layout.invalidate();
                 inner_layout.invalidate();
+
                 DrawLine_layout.invalidate();
             }
         }
