@@ -18,6 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import ir.adad.client.Adad;
+import ir.adad.client.InterstitialAdListener;
+
 public class Menu extends Activity {
 
     private RelativeLayout inner_layout;
@@ -37,14 +42,17 @@ public class Menu extends Activity {
 
     private SharedPreferences sharedPreferences;
 
-    public static Context context=null;
+    public static Context context = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Adad.initialize(getApplicationContext());
         setContentView(R.layout.menu);
 
-        Menu.context=this.getApplicationContext();
+        tabligh();
+
+        Menu.context = this.getApplicationContext();
 
         RelativeLayout wholeLayout = (RelativeLayout) findViewById(R.id.menu_whole_layout);
 
@@ -60,9 +68,49 @@ public class Menu extends Activity {
         high_Score_text = (TextView) findViewById(R.id.menu_high_Score_text);
         high_Score_Score = (TextView) findViewById(R.id.menu_high_Score_Score);
 
-        sharedPreferences= getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
         readyGraphics();
 
+    }
+
+    //TODO:NOT WORKING
+    private void tabligh() {
+        Adad.enableBannerAds();
+        InterstitialAdListener mInterstitialAdListener = new InterstitialAdListener() {
+            @Override
+            public void onAdLoaded() {
+                // این بخش زمانی که تبلیغ در برنامه شما بارگزاری می‌شود فراخوانی خواهد شد
+            }
+
+            @Override
+            public void onAdFailedToLoad() {
+                // این بخش زمانی که مشکلی در بارگزاری تبلیغ وجود داشته باشد فراخوانی خواهد شد. به عنوان نمونه قطع شدن اینترنت و یا عدم وجود تبلیغ متناسب با برنامه شما در آن لحظه در سرور عدد
+                Toast.makeText(getApplicationContext(),"HIIII",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onInterstitialAdDisplayed() {
+                // این بخش زمانی که تبلیغ به حالت نمایش داده شدن درمی‌آید فراخوانی خواهد شد
+            }
+
+            @Override
+            public void onMessageReceive(JSONObject message) {
+            }
+
+            @Override
+            public void onRemoveAdsRequested() {
+                // این بخش در صورتی که شما در برنامه خود امکان حذف تبلیغات را به کاربر داده باشید و کاربر آن گزینه را انتخاب کند فراخوانی خواهد شد. می‌توانید در این بخش کاربر را به صفحه فروشگاه برنامه خود هدایت کنید
+            }
+
+            @Override
+            public void onInterstitialClosed() {
+                // این بخش زمانی که تبلیغ تمام صفحه بسته شود فراخوانی خواهد شد
+            }
+
+        };
+
+        Adad.prepareInterstitialAd(mInterstitialAdListener);
+        Adad.showInterstitialAd(this);
     }
 
     private void readyGraphics() {
@@ -134,7 +182,7 @@ public class Menu extends Activity {
         high_Score_text.setText(R.string.high_Score);
         high_Score_text.setTypeface(typeface);
         high_Score_Score.setTypeface(typeface);
-        high_Score_Score.setText(sharedPreferences.getInt("score",0)+"");
+        high_Score_Score.setText(sharedPreferences.getInt("score", 0) + "");
         high_Score_Score.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
         high_Score_text.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
 
@@ -149,33 +197,33 @@ public class Menu extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        high_Score_Score.setText(sharedPreferences.getInt("score",0)+"");
+        high_Score_Score.setText(sharedPreferences.getInt("score", 0) + "");
 
 
     }
 
-    protected void CustomToast(String message){
-        LayoutInflater inflater=getLayoutInflater();
-        View layout=inflater.inflate(R.layout.custom_toast,(ViewGroup)findViewById(R.id.customtoast));
+    protected void CustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.customtoast));
 
-        TextView textView=(TextView)layout.findViewById(R.id.custom_toast_text);
+        TextView textView = (TextView) layout.findViewById(R.id.custom_toast_text);
         textView.setText(message);
-        Typeface typeface=Typeface.createFromAsset(getAssets(),"Fonts/font.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/font.ttf");
         textView.setTypeface(typeface);
 
 
-        Toast t=new Toast(getApplicationContext());
+        Toast t = new Toast(getApplicationContext());
         t.setView(layout);
         t.setDuration(Toast.LENGTH_SHORT);
-        t.setGravity(Gravity.BOTTOM | Gravity.RIGHT,100,100);
+        t.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 100, 100);
         t.show();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-       // SimpleDialog simpleDialog=new SimpleDialog();
-       // simpleDialog.setCancelable(true);
-       // simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
+        // SimpleDialog simpleDialog=new SimpleDialog();
+        // simpleDialog.setCancelable(true);
+        // simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
     }
 }
