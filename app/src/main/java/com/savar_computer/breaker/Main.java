@@ -317,7 +317,7 @@ public class Main extends Activity {
             Brick brick = new Brick(context, (int) brickW, (int) brickY, level);
             bricks.add(brick);
             bricksCount++;
-            brick.setY(Brick.margin);
+            brick.setY(Brick.margin*2+brickW);
 
             float newX = 0;
             loop:
