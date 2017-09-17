@@ -3,7 +3,6 @@ package com.savar_computer.breaker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -14,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ir.adad.client.Adad;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Splash extends Activity {
 
@@ -49,8 +49,6 @@ public class Splash extends Activity {
 
         //Set Text of Splash Settings
         textView = (TextView) findViewById(R.id.splash_txt);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/font.ttf");
-        textView.setTypeface(typeface);
         textView.setTextSize(dpFromPx(getApplicationContext(), ScreenW / 20));
         textView.setY((ScreenH / 20) + (ScreenW - 70) + 100);
 
@@ -75,5 +73,10 @@ public class Splash extends Activity {
 
     public static float dpFromPx(final Context context, final float px) {
         return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

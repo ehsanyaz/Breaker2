@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +20,7 @@ import org.json.JSONObject;
 
 import ir.adad.client.Adad;
 import ir.adad.client.InterstitialAdListener;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Menu extends Activity {
 
@@ -140,8 +139,6 @@ public class Menu extends Activity {
         inner_layout.setY((float) ((ScreenH - brickY * 9) / 2.6 * 1.6));
 
         //Set Setting of Start_btn
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/font.ttf");
-        start_button.setTypeface(typeface);
         //Calculate the Size of Start Button
         int start_btn_width = inner_layout_width - 70;
         RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(start_btn_width, start_btn_width / 8);
@@ -180,8 +177,6 @@ public class Menu extends Activity {
 
         //Set Location and Setting of textView
         high_Score_text.setText(R.string.high_Score);
-        high_Score_text.setTypeface(typeface);
-        high_Score_Score.setTypeface(typeface);
         high_Score_Score.setText(sharedPreferences.getInt("score", 0) + "");
         high_Score_Score.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
         high_Score_text.setTextSize(Splash.dpFromPx(getApplicationContext(), ScreenW / 30));
@@ -208,8 +203,6 @@ public class Menu extends Activity {
 
         TextView textView = (TextView) layout.findViewById(R.id.custom_toast_text);
         textView.setText(message);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/font.ttf");
-        textView.setTypeface(typeface);
 
 
         Toast t = new Toast(getApplicationContext());
@@ -225,5 +218,10 @@ public class Menu extends Activity {
         // SimpleDialog simpleDialog=new SimpleDialog();
         // simpleDialog.setCancelable(true);
         // simpleDialog.show(getFragmentManager(),"CustomDialogFragment");
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

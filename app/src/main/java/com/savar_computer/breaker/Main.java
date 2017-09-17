@@ -7,19 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.savar_computer.breaker.Classes.Ball;
 import com.savar_computer.breaker.Classes.Brick;
@@ -103,7 +97,7 @@ public class Main extends Activity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
 
         //-----The code below is to have different delay time in every Fragmentation
-        ballDelay = ScreenH / 10;
+        ballDelay = ScreenH / 12;
     }
 
     private void tablikh() {
@@ -111,12 +105,12 @@ public class Main extends Activity {
         AdListener adListener=new AdListener() {
             @Override
             public void onAdLoaded() {
-                Toast.makeText(getApplicationContext(),"ONLOAD",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"ONLOAD",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onAdFailedToLoad() {
-                Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -126,8 +120,7 @@ public class Main extends Activity {
 
             @Override
             public void onRemoveAdsRequested() {
-                Toast.makeText(getApplicationContext(),"Remove",Toast.LENGTH_LONG).show();
-
+                //Toast.makeText(getApplicationContext(),"Remove",Toast.LENGTH_LONG).show();
             }
         };
         ((AdView) findViewById(R.id.main_banner)).setAdListener(adListener);
