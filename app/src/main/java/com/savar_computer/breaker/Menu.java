@@ -183,8 +183,9 @@ public class Menu extends Activity {
 
         //Score Layout
         score_layout.setX(40);
-        score_layout.setY(inner_layout_height - start_btn_width / 10 - ScreenH / 7 - 50);
+        score_layout.setY(inner_layout_height - start_btn_width / 10 - ScreenH / 7 - 80);
         RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(inner_layout_width - 80, 40);
+        params4.setMargins(0,0,0,20);
         score_layout.setLayoutParams(params4);
 
     }
