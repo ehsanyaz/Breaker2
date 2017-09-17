@@ -25,9 +25,15 @@ import com.savar_computer.breaker.Classes.Ball;
 import com.savar_computer.breaker.Classes.Brick;
 import com.savar_computer.breaker.Classes.DrawingView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import ir.adad.client.AdListener;
+import ir.adad.client.AdView;
+import ir.adad.client.Adad;
 
 public class Main extends Activity {
 
@@ -71,6 +77,8 @@ public class Main extends Activity {
         MyActivity=this;
         PreparingGraphics();
 
+        tablikh();
+        
         //------------------------------First Logic
         gameStatue = Status.readyToShot;
         startX = inner_layout_width / 2;
@@ -96,6 +104,33 @@ public class Main extends Activity {
 
         //-----The code below is to have different delay time in every Fragmentation
         ballDelay = ScreenH / 10;
+    }
+
+    private void tablikh() {
+        Adad.initialize(getApplicationContext());
+        AdListener adListener=new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Toast.makeText(getApplicationContext(),"ONLOAD",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad() {
+                Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onMessageReceive(JSONObject message) {
+
+            }
+
+            @Override
+            public void onRemoveAdsRequested() {
+                Toast.makeText(getApplicationContext(),"Remove",Toast.LENGTH_LONG).show();
+
+            }
+        };
+        ((AdView) findViewById(R.id.main_banner)).setAdListener(adListener);
     }
 
     //--------------------------------------------------------Graphics

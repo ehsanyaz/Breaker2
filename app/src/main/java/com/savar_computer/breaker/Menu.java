@@ -50,7 +50,7 @@ public class Menu extends Activity {
         Adad.initialize(getApplicationContext());
         setContentView(R.layout.menu);
 
-        tabligh();
+        //tabligh();
 
         Menu.context = this.getApplicationContext();
 

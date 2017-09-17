@@ -26,27 +26,36 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/score_panel"
-        android:padding="5dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/main_score_text"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="سطح"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="سطح" />
 
         <TextView
             android:id="@+id/main_score_score"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            />
+            android:text="0" />
 
     </RelativeLayout>
+
+    <ir.adad.client.Banner
+        android:id="@+id/main_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:foregroundGravity="center"
+        >
+    </ir.adad.client.Banner>
 
 </RelativeLayout>

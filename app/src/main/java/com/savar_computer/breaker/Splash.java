@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import ir.adad.client.Adad;
+
 public class Splash extends Activity {
 
     private Handler handler;
@@ -25,6 +27,11 @@ public class Splash extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Getting ready Adad Dependency
+        Adad.initialize(getApplicationContext());
+       // Adad.enableBannerAds();
+
         setContentView(R.layout.splash);
 
         //get Size of Screen
