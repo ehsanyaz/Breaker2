@@ -205,7 +205,6 @@ public class Menu extends Activity {
         TextView textView = (TextView) layout.findViewById(R.id.custom_toast_text);
         textView.setText(message);
 
-
         Toast t = new Toast(getApplicationContext());
         t.setView(layout);
         t.setDuration(Toast.LENGTH_SHORT);

@@ -49,6 +49,7 @@
     </RelativeLayout>
 
     <ir.adad.client.Banner
+        android:layout_centerHorizontal="true"
         android:id="@+id/main_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
