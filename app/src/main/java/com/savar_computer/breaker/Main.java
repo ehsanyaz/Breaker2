@@ -268,10 +268,8 @@ public class Main extends Activity {
         float x = startX;
         float y = startY;
         for (int i = 0; i < ballsCount; i++) {
-            balls.get(i).setX(100);
-            balls.get(i).setY(100);
-            //balls.get(i).setX(x - ball_radius / 2);
-            //balls.get(i).setY(y - ball_radius);
+            balls.get(i).setX(x - ball_radius / 2);
+            balls.get(i).setY(y - ball_radius);
         }
         inner_layout.invalidate();
         DrawLine_layout.invalidate();
