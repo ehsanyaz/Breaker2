@@ -138,16 +138,45 @@ public class Ball extends android.support.v7.widget.AppCompatImageView implement
                     continue;
                 if (Main.bricks.get(i).getX() - this.radius <= 5+this.getX() && Main.bricks.get(i).getY() - this.radius <= 5+this.getY() && Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth() + this.radius+5 >= this.getX() + this.radius && Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight() + this.radius+5 >= this.getY() + this.radius) {
                     Log.e("ball","hited");
-                    if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < Math.abs(stepX)) {
+                    //Corners
+                    if(Math.abs(this.getX()+this.radius-Main.bricks.get(i).getX())<Math.abs(stepX) && Math.abs(this.getY()+this.radius-Main.bricks.get(i).getY())<Math.abs(stepY) ) {
+                        if (stepX > 0 && stepY < 0)
+                            continue;
+                        else if(stepX<0 && stepY<0)
+                            continue;
+                        else if(stepX>0 && stepY>0){
+                            stepX=-1*stepX;
+                            stepY=-1*stepY;
+                        }
+                        else if(stepX<0 && stepY>0)
+                            continue;
+                    }
+
+                    else if(Math.abs(this.getX()+this.radius-Main.bricks.get(i).getX())<Math.abs(stepX) && Math.abs(this.getY()-Main.bricks.get(i).getY()-Main.bricks.get(i).getHeight())<Math.abs(stepY) ) {
+                        if (stepX > 0 && stepY < 0) {
+                            stepX=-1*stepX;
+                            stepY=-1*stepY;
+                        }
+                        else if(stepX<0 && stepY<0)
+                            continue;
+                        else if(stepX>0 && stepY>0){
+                            continue;
+                        }
+                        else if(stepX<0 && stepY>0)
+                            continue;
+                    }
+
+                    //Other
+                    else if (this.getX() - (Main.bricks.get(i).getX() - this.radius) < Math.abs(stepX)) {
                         this.stepX = -1 * this.stepX;
                     }
-                    if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < Math.abs(stepY)) {
+                    else if (this.getY() - (Main.bricks.get(i).getY() - this.radius) < Math.abs(stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < Math.abs(stepY)) {
+                    else if ((Main.bricks.get(i).getY() + Main.bricks.get(i).getHeight()) - this.getY() < Math.abs(stepY)) {
                         this.stepY = -1 * this.stepY;
                     }
-                    if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < Math.abs(stepX)) {
+                    else if ((Main.bricks.get(i).getX() + Main.bricks.get(i).getWidth()) - this.getX() < Math.abs(stepX)) {
                         this.stepX = -1 * this.stepX;
                     }
                     changedWay = true;
